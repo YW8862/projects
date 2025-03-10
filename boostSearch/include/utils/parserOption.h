@@ -6,20 +6,13 @@
 #include <vector>
 #include <unistd.h>
 #include <boost/filesystem.hpp>
+#include "../types.h"
 
 //定义同一个文件中的title、content、url的分隔符
 #define SEP '\3'
 
 const std::string srcPath = "./data/input";
 const std::string rawPath = "./data/raw_html/raw.txt";
-
-class docInfo_t
-{
-public:
-    std::string title;   //文档标题
-    std::string content; //文档内容
-    std::string url;     //该文档在官网中的url
-};
 
 enum
 {
