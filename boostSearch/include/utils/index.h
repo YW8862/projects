@@ -1,11 +1,13 @@
 #ifndef __INDEX_H__
 #define __INDEX_H__
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "../types.h"
 #include "parserOption.h"
+#include "../../include/utils/utils.h"
+#include "../types.h"
 
 namespace ns_index
 {
@@ -14,32 +16,27 @@ namespace ns_index
     {
     public:
         index() {}
+
         ~index() {}
 
         //根据去标签和格式化后的文件，构建正排索引和倒排索引
         //@rawFilePath:raw.txt的路径，raw.txt是处理格式化后的文件
-        bool buildIndex(const std::string &rawFilePath)
-        {
-            
-        }
+        bool buildIndex(const std::string &rawFilePath);
 
         // 根据docID获得文档内容
-        docInfo *getForwardIndex(const uint64_t &docID)
-        {
-            if (docID >= forwardIndex.size())
-            {
-                return nullptr;
-            }
-            return nullptr;
-        }
+        docInfo *getForwardIndex(const uint64_t &docID);
 
-        invertedList_t *getInvertedList(const std::string &keyWord)
-        {
-
-            return nullptr;
-        }
-
+        //根据倒关键字引获取倒排拉链
+        invertedList_t *getInvertedList(const std::string &keyWord);
     private:
+
+        //建立正排索引
+        docInfo *buildForwardIndex(const std::string &doc);
+
+        //建立倒排索引
+        bool buildInvertedIndex(const docInfo &doc);
+    private:
+
         // 正排索引用类似于数组，数组的下标为文档的id
         std::vector<docInfo> forwardIndex;
 

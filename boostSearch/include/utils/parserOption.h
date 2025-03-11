@@ -8,9 +8,6 @@
 #include <boost/filesystem.hpp>
 #include "../types.h"
 
-//定义同一个文件中的title、content、url的分隔符
-#define SEP '\3'
-
 const std::string srcPath = "./data/input";
 const std::string rawPath = "./data/raw_html/raw.txt";
 

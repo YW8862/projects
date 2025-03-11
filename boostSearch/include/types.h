@@ -4,10 +4,13 @@
 #include <string>
 #include <vector>
 
+//定义同一个文件中的title、content、url的分隔符
+#define SEP "\3"
+
 //文档对象结构体
 class docInfo_t
 {
-private:
+public:
     std::string title;   //文档标题
     std::string content; //文档内容
     std::string url;     //该文档在官网中的url
@@ -28,7 +31,7 @@ class invertedElem
 {
     int docId;              //文档id
     std::string keyWord;    //关键词
-    double weight;          //关键词权重
+    int weight;          //关键词权重
 };
 
 //一组倒排文档组成一个倒排映射对象 --> 倒排拉链
