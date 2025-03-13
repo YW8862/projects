@@ -61,6 +61,8 @@
         "typeinfo": "cpp",
         "any": "cpp",
         "codecvt": "cpp",
-        "csignal": "cpp"
+        "csignal": "cpp",
+        "map": "cpp",
+        "unordered_set": "cpp"
     }
 }

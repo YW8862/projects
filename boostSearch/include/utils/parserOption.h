@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <boost/filesystem.hpp>
 #include "../types.h"
+#include "../../include/utils/utils.h"
 
 const std::string srcPath = "./data/input";
 const std::string rawPath = "./data/raw_html/raw.txt";

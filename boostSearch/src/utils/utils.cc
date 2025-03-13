@@ -2,7 +2,6 @@
 
 using namespace ns_utils;
 
-
 bool FileUtils::readFile(const std::string &filePath,std::string *result)
 {
     std::ifstream in(filePath,std::ios::in);
@@ -29,4 +28,13 @@ void StringUtils::cutString(const std::string &target,std::vector<std::string> *
 {
     //使用boost库spilt函数
     boost::split(*outString,target,boost::is_any_of(sep),boost::token_compress_on);
+}
+
+//使用jieba分词工具提取关键词
+//@src:已经拆分出来的title、content或者url
+//@words:分出来的关键词
+cppjieba::Jieba JiebaUtils::jieba(DICT_PATH,HMM_PATH,USER_DICT_PATH,IDF_PATH,STOP_WORD_PATH);
+void JiebaUtils::extractWords(const std::string &src,std::vector<std::string> *words)
+{
+    jieba.CutForSearch(src, *words);
 }
