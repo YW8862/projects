@@ -34,7 +34,7 @@ void StringUtils::cutString(const std::string &target,std::vector<std::string> *
 //@src:已经拆分出来的title、content或者url
 //@words:分出来的关键词
 cppjieba::Jieba JiebaUtils::jieba(DICT_PATH,HMM_PATH,USER_DICT_PATH,IDF_PATH,STOP_WORD_PATH);
-void JiebaUtils::extractWords(const std::string &src,std::vector<std::string> *words)
+void JiebaUtils::split(const std::string &src,std::vector<std::string> *words)
 {
     jieba.CutForSearch(src, *words);
 }

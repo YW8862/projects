@@ -7,7 +7,7 @@ UTILS_DIR  := utils
 INCLUDE_DIR:= include
 
 .PHONY: all clean
-all: directories $(BIN_DIR)/parser $(BIN_DIR)/server
+all: directories $(BIN_DIR)/parser $(BIN_DIR)/debug $(BIN_DIR)/httpServer
 
 # 创建目录
 directories:
@@ -28,11 +28,11 @@ $(BUILD_DIR)/parserOption.o: $(SRC_DIR)/utils/parserOption.cc
 $(BUILD_DIR)/utils.o: $(SRC_DIR)/$(UTILS_DIR)/utils.cc $(INCLUDE_DIR)/$(UTILS_DIR)/utils.h
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
 
-# 编译 server
-$(BIN_DIR)/server: $(BUILD_DIR)/server.o $(BUILD_DIR)/searcher.o $(BUILD_DIR)/index.o $(BUILD_DIR)/utils.o
+# 编译 debug
+$(BIN_DIR)/debug: $(BUILD_DIR)/debug.o $(BUILD_DIR)/searcher.o $(BUILD_DIR)/index.o $(BUILD_DIR)/utils.o
 	$(CXX) -o $@ $^ $(CXX_FLAGS) -ljsoncpp
 
-$(BUILD_DIR)/server.o: $(SRC_DIR)/server.cpp $(INCLUDE_DIR)/searcher.h
+$(BUILD_DIR)/debug.o: $(SRC_DIR)/debug.cpp $(INCLUDE_DIR)/searcher.h
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
 
 $(BUILD_DIR)/index.o: $(SRC_DIR)/$(UTILS_DIR)/index.cc $(INCLUDE_DIR)/$(UTILS_DIR)/utils.h
@@ -40,6 +40,8 @@ $(BUILD_DIR)/index.o: $(SRC_DIR)/$(UTILS_DIR)/index.cc $(INCLUDE_DIR)/$(UTILS_DI
 
 $(BUILD_DIR)/searcher.o: $(SRC_DIR)/searcher.cc $(INCLUDE_DIR)/$(UTILS_DIR)/index.h
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
+
+$(BIN_DIR)/httpServer
 
 # 清理
 clean:

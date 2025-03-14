@@ -28,6 +28,7 @@ bool index::buildIndex(const std::string &rawFilePath)
         return false;
     }
     std::string line;
+    int cnt = 0;
     while (std::getline(in, line))
     {
         // 提取文档的内容，放到正排索引当中
@@ -42,7 +43,10 @@ bool index::buildIndex(const std::string &rawFilePath)
         {
             continue;
         }
+        cnt++;
+        printf("\rbuild Index %4d...",cnt);
     }
+    std::cout<<std::endl;
     return true;
 }
 
@@ -86,7 +90,7 @@ bool index::buildInvertedIndex(const docInfo &doc)
     std::unordered_map<std::string, wordCnt> wordMap;
     // 对标题进行分词并且词频统计
     std::vector<std::string> titleWords;
-    ns_utils::JiebaUtils::extractWords(doc.title, &titleWords);
+    ns_utils::JiebaUtils::split(doc.title, &titleWords);
     for (std::string keyword : titleWords)
     {
         boost::to_lower(keyword);
@@ -95,11 +99,11 @@ bool index::buildInvertedIndex(const docInfo &doc)
 
     // 将文档内容进行分词并且词频统计
     std::vector<std::string> contenWords;
-    ns_utils::JiebaUtils::extractWords(doc.content, &contenWords);
-    for (std::string contenword : contenWords)
+    ns_utils::JiebaUtils::split(doc.content, &contenWords);
+    for (std::string keyword : contenWords)
     {
-        boost::to_lower(contenword);
-        wordMap[contenword].titleCnt++;
+        boost::to_lower(keyword);
+        wordMap[keyword].contentCnt++;
     }
 
     // 填充倒排拉链

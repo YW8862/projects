@@ -26,6 +26,8 @@ namespace ns_searcher
 
         void search(const std::string &query, std::string *jsonString);
 
+        std::string getDesc(const std::string &content,const std::string &keyword);
+
     private:
         ns_index::index *index;
     };

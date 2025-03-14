@@ -24,7 +24,7 @@ namespace ns_utils
     class JiebaUtils
     {
     public:
-        static void extractWords(const std::string &src,std::vector<std::string> *words);
+        static void split(const std::string &src,std::vector<std::string> *words);
     private:
         //定义静态成员jieba对象
         static cppjieba::Jieba jieba;
