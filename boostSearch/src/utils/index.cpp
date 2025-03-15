@@ -105,7 +105,7 @@ bool index::buildInvertedIndex(const docInfo &doc)
         boost::to_lower(keyword);
         wordMap[keyword].contentCnt++;
     }
-
+    
     // 填充倒排拉链
     for (auto &wordPair : wordMap)
     {
