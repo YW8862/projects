@@ -18,7 +18,9 @@ void Searcher::search(const std::string &query, std::string *jsonString)
     std::vector<std::string> words;
     ns_utils::JiebaUtils::split(query, &words);
     // 2.[触发]根据分词后的各个词进行查找
-    invertedList_t invertedList;
+    //invertedList_t invertedList;
+    std::vector<invertedElemPrint> invertedList;
+    std::unordered_map<uint64_t, invertedElemPrint> tokensMap;
     for (std::string word : words)
     {
         boost::to_lower(word);
@@ -29,11 +31,25 @@ void Searcher::search(const std::string &query, std::string *jsonString)
         {
             continue;
         }
-        invertedList.insert(invertedList.end(), list->begin(), list->end());
+        // invertedList.insert(invertedList.end(), list->begin(), list->end());
+        //去重
+        for (auto &elem : *list)
+        {
+            //如果存在，直接获取，否则创建
+            auto &item = tokensMap[elem.docId]; 
+            //item一定是docID相同的节点
+            item.docId = elem.docId;
+            item.weight += elem.weight;
+            item.words.push_back(elem.keyWord);
+        }
     }
-
+    //去重合并后插入
+    for(const auto &elem:tokensMap)
+    {
+        invertedList.push_back(std::move(elem.second));
+    }
     // 3.[合并排序]根据汇总的查找结果按照相关性进行降序排序
-    std::sort(invertedList.begin(), invertedList.end(), [](const invertedElem &elem1, const invertedElem &elem2)
+    std::sort(invertedList.begin(), invertedList.end(), [](const invertedElemPrint &elem1, const invertedElemPrint &elem2)
               { return elem1.weight > elem2.weight; });
 
     // 4.[构建]根据查找结果构建json串返回给用户
@@ -47,12 +63,12 @@ void Searcher::search(const std::string &query, std::string *jsonString)
         }
         Json::Value elem;
         elem["title"] = doc->title;
-        elem["desc"] = getDesc(doc->content, item.keyWord);
+        elem["desc"] = getDesc(doc->content, item.words[0]);
         elem["url"] = doc->url;
         elem["weight"] = item.weight;
         root.append(elem);
     }
-    Json::StyledWriter writer;
+    Json::FastWriter writer;
     *jsonString = writer.write(root);
 }
 
@@ -64,8 +80,9 @@ std::string Searcher::getDesc(const std::string &content, const std::string &key
     const std::size_t nextStep = 100;
     // 1.找到首次出现的位置
     // std::size_t pos = content.find(keyword);
-    auto iter = std::search(content.begin(),content.end(),keyword.begin(),keyword.end(),
-            [](char ch1,char ch2){return std::tolower(ch1) == std::tolower(ch2);});
+    auto iter = std::search(content.begin(), content.end(), keyword.begin(), keyword.end(),
+                            [](char ch1, char ch2)
+                            { return std::tolower(ch1) == std::tolower(ch2); });
     // 没有找到返回None --> 不可能出现，因为按照关键字创建的倒排拉链，不可能不出现该关键字
     if (iter == content.end())
     {
@@ -73,7 +90,7 @@ std::string Searcher::getDesc(const std::string &content, const std::string &key
     }
 
     // 2.获取start和end;
-    std::size_t pos = std::distance(content.begin(),iter);
+    std::size_t pos = std::distance(content.begin(), iter);
     std::size_t start = 0;
     std::size_t end = content.size() - 1;
     if (pos > start + prevStep)
@@ -84,8 +101,8 @@ std::string Searcher::getDesc(const std::string &content, const std::string &key
     {
         end = pos + keyword.size() + nextStep;
     }
-    //3.截取子串
-    if(start >= end)
+    // 3.截取子串
+    if (start >= end)
     {
         return "None1";
     }

@@ -105,42 +105,16 @@
 <body>
     <div class="container">
         <div class="search">
-            <input type="text" value="请输入搜索关键字">
+            <input type="text" placeholder="请输入搜索关键字">
             <button onclick="Search()">搜索一下</button>
         </div>
         <div class="result">
             <!-- 动态生成网页内容 -->
-            <!-- <div class="item">
-                <a href="#">这是标题</a>
-                <p>这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</p>
-                <i>https://search.gitee.com/?skin=rec&type=repository&q=cpp-httplib</i>
-            </div>
-            <div class="item">
-                <a href="#">这是标题</a>
-                <p>这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</p>
-                <i>https://search.gitee.com/?skin=rec&type=repository&q=cpp-httplib</i>
-            </div>
-            <div class="item">
-                <a href="#">这是标题</a>
-                <p>这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</p>
-                <i>https://search.gitee.com/?skin=rec&type=repository&q=cpp-httplib</i>
-            </div>
-            <div class="item">
-                <a href="#">这是标题</a>
-                <p>这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</p>
-                <i>https://search.gitee.com/?skin=rec&type=repository&q=cpp-httplib</i>
-            </div>
-            <div class="item">
-                <a href="#">这是标题</a>
-                <p>这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要这是摘要</p>
-                <i>https://search.gitee.com/?skin=rec&type=repository&q=cpp-httplib</i>
-            </div> -->
         </div>
     </div>
     <script>
         function Search(){
             // 是浏览器的一个弹出框
-            // alert("hello js!");
             // 1. 提取数据, $可以理解成就是JQuery的别称
             let query = $(".container .search input").val();
             console.log("query = " + query); //console是浏览器的对话框，可以用来进行查看js数据

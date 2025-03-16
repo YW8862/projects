@@ -35,6 +35,20 @@ public:
     int weight;          // 关键词权重（相关性） --> 假定根据词频确定
 };
 
+//用于打印的拉链节点
+class invertedElemPrint
+{
+public:
+    invertedElemPrint():docId(0),weight(0)
+    {
+    }
+
+public:
+    uint64_t docId;
+    int weight;
+    std::vector<std::string> words;
+};
+
 // 一组倒排文档组成一个倒排映射对象 --> 倒排拉链
 using invertedList_t = std::vector<invertedElem>;
 

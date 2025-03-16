@@ -8,18 +8,29 @@ const std::string root_path = "wwwroot";
 
 int main()
 {
-    char buffer[1024];
-    getcwd(buffer, sizeof(buffer) - 1);
-    std::cout << "current work dir " << buffer << std::endl;
+    //建立搜索模块
+    ns_searcher::Searcher searcher;
+    searcher.initSearcher(input);
 
-    ns_searcher::Searcher search;
-    search.initSearcher(input);
-
+    //创建服务模块
     httplib::Server svr;
-    svr.set_base_dir(root_path.c_str());
-    svr.Get("/s", [&search](const httplib::Request &req, httplib::Response &rsp) {});
+    svr.set_base_dir(root_path);
+    svr.Get("/s",[&searcher](const httplib::Request &request,httplib::Response &response)
+        {
+            if(!request.has_param("word"))
+            {
+                response.set_content("input keyword please","text/plain;charset = utf-8");
+                return;
+            }
+            std::string word = request.get_param_value("word");
+            std::cout<<"user input:"<<word<<std::endl;
 
-    LOG(NORMAL, "服务器启动成功...");
-    svr.listen("0.0.0.0", 8888);
+            //获取搜索结果
+            std::string jsonString;
+            searcher.search(word,&jsonString);
+            //返回搜索结果
+            response.set_content(jsonString,"application/json");
+        });
+        svr.listen("0.0.0.0",8888);
     return 0;
 }
