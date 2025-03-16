@@ -71,5 +71,6 @@
         "variant": "cpp",
         "bitset": "cpp",
         "regex": "cpp"
-    }
+    },
+    "cmake.ignoreCMakeListsMissing": true
 }
